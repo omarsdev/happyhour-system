@@ -39,7 +39,6 @@ app.use(mongoSanatize());
 //File Uploade
 app.use(fileuploade());
 //set static folder
-app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "images")));
 
 app.get("/", (req, res, next) => {
