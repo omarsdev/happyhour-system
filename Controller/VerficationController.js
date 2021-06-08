@@ -50,9 +50,7 @@ exports.createVerficationCodeGift = asyncHandler(async (req, res, next) => {
     user_ref: req.user.id,
   });
   if (!creteNewVerfication) {
-    return next(
-      new ErrorResponse(`Ads not found with id of ${giftid}`)
-    );
+    return next(new ErrorResponse(`Ads not found with id of ${giftid}`));
   }
 
   const user = await UserVerfication.findByIdAndUpdate(req.user.id, {
@@ -117,8 +115,10 @@ exports.createVerficationCodeStore = asyncHandler(async (req, res, next) => {
 
   let verfication, code;
   do {
-    code = getRandomString(6);
-    const verficationCode = await VerficationStore.find().where("code").in(code);
+    code = getRandomCodeStore();
+    const verficationCode = await VerficationStore.find()
+      .where("code")
+      .in(code);
     if (verficationCode.length === 0) {
       verfication = false;
     } else {
@@ -131,9 +131,7 @@ exports.createVerficationCodeStore = asyncHandler(async (req, res, next) => {
     user_ref: req.user.id,
   });
   if (!creteNewVerfication) {
-    return next(
-      new ErrorResponse(`Store not found with id of ${storeid}`)
-    );
+    return next(new ErrorResponse(`Store not found with id of ${storeid}`));
   }
 
   const user = await UserVerfication.findByIdAndUpdate(req.user.id, {
@@ -156,7 +154,6 @@ exports.createVerficationCodeStore = asyncHandler(async (req, res, next) => {
     return next(
       new ErrorResponse(`Please try to create verfication code again`, 400)
     );
-    
   }
 
   res.status(200).json({
@@ -164,3 +161,17 @@ exports.createVerficationCodeStore = asyncHandler(async (req, res, next) => {
     data: creteNewVerfication,
   });
 });
+function getRandomCodeStore() {
+  var randomChars = "abcdefghijklmnopqrstuvwsyz";
+  var randomNumber = "1234567890";
+  var result = "";
+  for (var i = 0; i < 3; i++) {
+    result += randomChars.charAt(
+      Math.floor(Math.random() * randomChars.length)
+    );
+    result += randomNumber.charAt(
+      Math.floor(Math.random() * randomNumber.length)
+    );
+  }
+  return result;
+}
