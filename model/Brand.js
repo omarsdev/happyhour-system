@@ -99,13 +99,11 @@ const BrancheSchema = new mongoose.Schema({
   address: {
     type: String,
   },
-  brand_ref: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Brand",
-    },
-  ],
-  caher: [
+  brand_ref: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Brand",
+  },
+  casher: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
