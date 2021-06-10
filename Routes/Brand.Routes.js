@@ -20,6 +20,12 @@ const {
   getSmallInfo,
 } = require("../Controller/Brand.Controller");
 
+const {
+  getCashersBrand,
+  setCahserForBrache,
+  getCahserBranche,
+} = require("../Controller/Casher.Controller");
+
 const router = express.Router();
 
 //-----------------------------Brand-----------------------------
@@ -44,4 +50,7 @@ router
   .route("/branche/:brandid/:id")
   .put(protect, authorize("client"), updateBranches);
 
+router.route("/branche/casher/:branchid").get(getCahserBranche);
+router.route("/branche/casher/:brandid/:branchid").get(getCashersBrand);
+router.route("/branche/casher/:brandid/:branchid").post(setCahserForBrache);
 module.exports = router;

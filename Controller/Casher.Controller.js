@@ -23,6 +23,21 @@ exports.getCashersBrand = asyncHandler(async (req, res, next) => {
   });
 });
 
+//get cahser for branche
+exports.getCahserBranche = asyncHandler(async (req, res, next) => {
+  const branche = await Branche.findById(req.params.branchid)
+    .select("casher")
+    .populate({
+      path: "casher",
+      select: "-interestedBrand -historySearch -createdAt",
+    });
+
+  res.status(200).json({
+    success: true,
+    data: branche.casher,
+  });
+});
+
 exports.setCahserForBrache = asyncHandler(async (req, res, next) => {
   //check if brandid and verficationcode is exists
   const checkBrand = await Branche.findById(req.params.branchid)
@@ -72,7 +87,7 @@ exports.setCahserForBrache = asyncHandler(async (req, res, next) => {
   const addCasherBranche = await Branche.findByIdAndUpdate(
     req.params.branchid,
     {
-      $push: { caher: user[0]._id },
+      $push: { casher: user[0]._id },
     }
   );
   if (!addCasherBranche) {
