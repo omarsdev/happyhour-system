@@ -9,6 +9,11 @@ const VerficationAdsSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  brand_ref: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Brand",
+    required: true,
+  },
   code: {
     type: String,
     required: true,
@@ -36,6 +41,11 @@ const VerficationStoreSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  brand_ref: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Brand",
+    required: true,
+  },
   code: {
     type: String,
     required: true,
@@ -62,10 +72,17 @@ const VerficationGiftSchema = new mongoose.Schema({
   gift_ref: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Gift",
+    required: true,
   },
   user_ref: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
+  },
+  brand_ref: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Brand",
+    required: true,
   },
   code: {
     type: String,
