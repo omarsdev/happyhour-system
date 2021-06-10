@@ -6,6 +6,8 @@ const asyncHandler = require("../middleware/async");
 const Gift = require("../model/Gift");
 const Client = require("../model/Client");
 const { Brand } = require("../model/Brand");
+const { VerficationGift } = require("../model/Verfication");
+const User = require("../model/User");
 
 exports.getAllGifts = asyncHandler(async (req, res, next) => {
   //TODO Rate User
@@ -147,5 +149,43 @@ exports.createNewBrandGift = asyncHandler(async (req, res, next) => {
 
 exports.updategift = asyncHandler(async (req, res, next) => {});
 
-// ------------------------------------------------------------ userGift ------------------------------------------------------------
+// ------------------------------------------------------------ Cacher ------------------------------------------------------------
+exports.checkGiftCode = asyncHandler(async (req, res, next) => {
+  // const gift = await VerficationGift.find({ code: req.body.code });
+  // if (!gift) {
+  //   return next(new ErrorResponse(`Code Not Found`));
+  // }
+  // if (gift.expire) {
+  //   res.status(200).json({
+  //     success: true,
+  //     msg: "this gift is already used",
+  //     data: gift,
+  //   });
+  // }
+  // res.status(200).json({
+  //   success: true,
+  //   data: gift,
+  // });
+});
+
+exports.confirmGiftCode = asyncHandler(async (req, res, next) => {
+  const gift = await VerficationGift.find({ code: req.body.code })
+    .populate({
+      path: "gift_ref",
+      select: "-verficationCode",
+    })
+    .populate({
+      path: "user_ref",
+      select: "username gender birthday ",
+    });
+  if (!gift) {
+    return next(new ErrorResponse(`Code Not Found`));
+  }
+  res.status(200).json({
+    success: true,
+    data: gift,
+  });
+});
+
+// ------------------------------------------------------------ Cacher ------------------------------------------------------------
 //TODO get user gift
