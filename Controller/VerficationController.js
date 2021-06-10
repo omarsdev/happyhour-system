@@ -15,8 +15,9 @@ const Store = require("../model/Store");
 
 exports.createVerficationCodeGift = asyncHandler(async (req, res, next) => {
   const giftid = req.params.giftid;
+  const brnadid = req.params.brandid;
   const gift = await Gift.findById(giftid)
-    .select("verficationCode")
+    .select("verficationCode brand")
     .populate("verficationCode");
 
   if (!gift) {
@@ -48,6 +49,7 @@ exports.createVerficationCodeGift = asyncHandler(async (req, res, next) => {
     code,
     gift_ref: giftid,
     user_ref: req.user.id,
+    brand_ref: gift.brand,
   });
   if (!creteNewVerfication) {
     return next(new ErrorResponse(`Ads not found with id of ${giftid}`));
